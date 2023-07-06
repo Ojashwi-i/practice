@@ -1,0 +1,19 @@
+body {
+    overflow: hidden;
+    justify-content: center;
+}
+
+.backbtn {
+    float: right;
+}
+
+form {
+    margin: 100px 0px 0px 0px;
+    font-size: 25px;
+}
+
+span {
+    font-size: 15px;
+    float: right;
+    color: red;
+}
