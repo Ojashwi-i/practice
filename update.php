@@ -1,19 +1,25 @@
 <?php include 'connect.php'; ?>
 
 <?php
-
-if (isset($_GET['Id'])) {
-    $id = $_GET['Id'];
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
     $sql = "SELECT * FROM `information` WHERE `Id`= '$id'";
     $result = $conn->query($sql);
-    // print_r($result);
-    $row =  $result->fetch_assoc();
-    // echo $row;
-    // echo "<pre>";    
-    // print_r($row);
+    if ($result) {
+        $row =  $result->fetch_assoc();
+        $firstname = $row['firstname'];
+        $lastname = $row['lastname'];
+        $dbemail = $row['email'];
+    } else {
+        echo "failed";
+    }
 }
 
 if ($conn) {
+    if (isset($_GET['id_new'])) {
+        $id = $_GET['id_new'];
+    }
+
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (empty($_POST["fname"])) {
             $vfname = "First Name required";
@@ -30,24 +36,18 @@ if ($conn) {
         } else {
             $email = test_input($_POST["email"]);
         }
-        // echo $fname . "<br>";
-        // echo $lname . "<br>";
-        // echo $email . "<br>";
-
 
 
         if (isset($_POST["update"]) && (empty($_POST["fname"]) || empty($_POST["lname"]) || empty($_POST["email"]))) {
         } else {
             $sql = "UPDATE `information` SET `firstname`='$fname',`lastname`='$lname',`email`='$email' WHERE `Id`='$id'";
             $query = $conn->query($sql);
-            // echo $query;
             if ($query) {
                 header('location:table.php');
-            } 
+            }
         }
     }
 }
-// echo $id;
 
 
 function test_input($data)
@@ -57,8 +57,6 @@ function test_input($data)
     $data = htmlspecialchars($data);
     return $data;
 }
-
-
 
 ?>
 
@@ -81,11 +79,14 @@ function test_input($data)
             <form action="update.php?id_new=<?php echo $id; ?>" method="post">
                 <a href="table.php" class="btn btn-danger backbtn">Back</a> <br>
                 <label for="fname">First Name:</label> <br>
-                <input type="text" name="fname" id="fname" class="form-control" value="<?php   ?>"> <br>
+                <span><?php echo $vfname; ?></span>
+                <input type="text" name="fname" id="fname" class="form-control" value="<?php echo $firstname; ?>"> <br>
                 <label for="lname">Last Name:</label> <br>
-                <input type="text" name="lname" id="lname" class="form-control" value="<?php  ?>"> <br>
+                <span><?php echo $vlname; ?></span>
+                <input type="text" name="lname" id="lname" class="form-control" value="<?php echo $lastname; ?>"> <br>
                 <label for="email">Email:</label> <br>
-                <input type="text" name="email" id="email" class="form-control" value="<?php  ?>"> <br>
+                <span><?php echo $vemail; ?></span>
+                <input type="text" name="email" id="email" class="form-control" value="<?php echo $dbemail; ?>"> <br>
                 <button type="submit" name="update" class="btn btn-primary">Update</button>
             </form>
         </div>

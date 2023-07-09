@@ -2,7 +2,7 @@
 
 $servername = "localhost";
 $username = "root";
-$password = null;
+$password = '';
 $dbname = "practice";
 $vfname = $vlname = $vemail = " ";
 $fname=$lname=$email=" ";
