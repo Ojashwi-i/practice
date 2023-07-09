@@ -1,6 +1,7 @@
 <?php include 'connect.php'; ?>
 
 <?php
+$firstname = $lastname = $dbemail = " ";
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     $sql = "SELECT * FROM `information` WHERE `Id`= '$id'";
@@ -40,7 +41,7 @@ if ($conn) {
 
         if (isset($_POST["update"]) && (empty($_POST["fname"]) || empty($_POST["lname"]) || empty($_POST["email"]))) {
         } else {
-            $sql = "UPDATE `information` SET `firstname`='$fname',`lastname`='$lname',`email`='$email' WHERE `Id`='$id'";
+            $sql = "UPDATE `information` SET `firstname`='$fname',`lastname`='$lname',`email`='$email' WHERE Id=$id";
             $query = $conn->query($sql);
             if ($query) {
                 header('location:table.php');
@@ -80,7 +81,7 @@ function test_input($data)
                 <a href="table.php" class="btn btn-danger backbtn">Back</a> <br>
                 <label for="fname">First Name:</label> <br>
                 <span><?php echo $vfname; ?></span>
-                <input type="text" name="fname" id="fname" class="form-control" value="<?php echo $firstname; ?>"> <br>
+                <input type="text" name="fname" id="fname" class="form-control" value="<?php echo $firstname;?>"> <br>
                 <label for="lname">Last Name:</label> <br>
                 <span><?php echo $vlname; ?></span>
                 <input type="text" name="lname" id="lname" class="form-control" value="<?php echo $lastname; ?>"> <br>
